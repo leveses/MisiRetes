@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin felület – Ízek kezelése</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="navbar"></div>
+  <script>
+    fetch("nav_admin.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("navbar").innerHTML = html;
+      });
+  </script>
+
+  <div class="container mt-5">
+    <h2 class="mb-4">Admin – Rendelhető ízek</h2>
+
+    <form id="addTasteForm" class="mb-3 d-flex gap-2">
+      <input type="text" id="newTaste" class="form-control" placeholder="Új íz neve" required />
+      <button type="submit" class="btn btn-success">Hozzáadás</button>
+    </form>
+
+    <ul id="tasteList" class="list-group"></ul>
+  </div>
+
+  <script>
+    async function loadTastes() {
+      const res = await fetch("/api/tastes");
+      const tastes = await res.json();
+
+      const list = document.getElementById("tasteList");
+      list.innerHTML = "";
+
+      tastes.forEach((taste) => {
+        const li = document.createElement("li");
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
+        li.textContent = taste.name;
+
+        const btn = document.createElement("button");
+        btn.textContent = "Törlés";
+        btn.className = "btn btn-danger btn-sm";
+        btn.onclick = async () => {
+          await fetch(`/api/tastes/${taste.id}`, { method: "DELETE" });
+          loadTastes();
+        };
+
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+    }
+
+    document.getElementById("addTasteForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const input = document.getElementById("newTaste");
+      const name = input.value.trim();
+
+      if (name) {
+        await fetch("/api/tastes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+        input.value = "";
+        loadTastes();
+      }
+    });
+
+    loadTastes();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

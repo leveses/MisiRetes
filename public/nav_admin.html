@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg custom-nav shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-white fs-1" href="#">Misi Rétesháza</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#adminNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="adminNavbar">
+      <ul class="navbar-nav ms-auto gap-2 mt-4 mt-lg-0"> <!-- extra top-margin mobilon -->
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-light px-3 fs-5" href="admin_dashboard.html">Ízek kezelése</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-light px-3 fs-5" href="admin_statisztika.html">Statisztikák</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-light px-3 fs-5" href="admin_deadline.html">Határidő</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* kétszeres magasság a padding növelésével */
+  .custom-nav {
+    background-color: #ff5f1f;
+    padding-top: 1rem;   /* alap .navbar 0.5rem → 1rem */
+    padding-bottom: 1rem;
+  }
+
+  /* link-kiemelés */
+  .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff !important;
+  }
+</style>
